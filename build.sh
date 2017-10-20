@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-docker build --rm -t jgeusebroek/webdav .
+docker build --rm -t softbrix/webdav .

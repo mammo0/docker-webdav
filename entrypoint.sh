@@ -26,13 +26,7 @@ else
   sed -i "s/is-readonly = \"\\w*\"/is-readonly = \"enable\"/" /etc/lighttpd/webdav.conf
 fi
 
-if [ ! -f /config/htpasswd ]; then
-	cp /etc/lighttpd/htpasswd /config/htpasswd
-fi
-
-if [ ! -f /config/webdav.conf ]; then
-	cp /etc/lighttpd/webdav.conf /config/webdav.conf
-fi
+echo $HTPASSWD > /etc/lighttpd/htpasswd
 
 lighttpd -f /etc/lighttpd/lighttpd.conf
 

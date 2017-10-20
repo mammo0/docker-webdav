@@ -1,0 +1,10 @@
+webdav:
+  container_name: webdav
+  image: softbrix/webdav
+  ports:
+    - "8081:80"
+  volumes:
+    - ./data:/webdav
+  environment:
+    - READWRITE=true
+    - HTPASSWD=webdav:kK1eUy0t2agv6

@@ -1,18 +1,19 @@
 FROM alpine:latest
 MAINTAINER Jeroen Geusebroek <me@jeroengeusebroek.nl>
+MAINTAINER Andreas Sehr <andreas@softbrix.se>
 
-ENV PACKAGE_LIST="lighttpd lighttpd-mod_webdav lighttpd-mod_auth" \
-    REFRESHED_AT='2016-12-26'
+EXPOSE 80
 
-RUN apk add --no-cache ${PACKAGE_LIST}
+VOLUME [ "/webdav" ]
 
-VOLUME [ "/config", "/webdav" ]
+ENV HTPASSWD=webdav:kK1eUy0t2agv6 \
+    PACKAGE_LIST="lighttpd lighttpd-mod_webdav lighttpd-mod_auth" \
+    REFRESHED_AT='2017-10-20'
 
 ADD files/* /etc/lighttpd/
 ADD ./entrypoint.sh /entrypoint.sh
 
-EXPOSE 80
-
-RUN chmod u+x  /entrypoint.sh
+RUN chmod u+x  /entrypoint.sh && \
+    apk add --no-cache ${PACKAGE_LIST}
 
 ENTRYPOINT ["/entrypoint.sh"]

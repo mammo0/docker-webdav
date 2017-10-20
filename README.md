@@ -1,21 +1,22 @@
-[![](https://images.microbadger.com/badges/image/jgeusebroek/webdav.svg)](https://microbadger.com/images/jgeusebroek/webdav "Get your own image badge on microbadger.com")
+This project was forked from [jgeusebroek](https://github.com/jgeusebroek/docker-webdav)
+
 # Docker WebDAV image
 
 A tiny image running [gliderlabs/docker-alpine](https://github.com/gliderlabs/docker-alpine) Linux and [Lighttpd](https://www.lighttpd.net/).
 
 ## Usage
 
-	docker run --restart=always -d
+	docker run --restart=always -d \
 		-p 0.0.0.0:80:80 \
 		--hostname=webdav \
 		--name=webdav \
 		-v /<host_directory_to_share>:/webdav \
-		jgeusebroek/webdav
+		softbrix/webdav
 
 By default the WebDAV server is password protected with user `webdav` and password `vadbew` which obviously isn't really secure.
-This can easily be overwritten, by creating a `config directory` on the host with an *htpasswd* file and mounting this as a volume on `/config`.
+This can easily be overwritten, by providing a new environment variable for the container when it starts.
 
-	-v /<host_config_directory>:/config
+	-e HTPASSWD=<username>:<hashed_password>
 
 You could use an online htpasswd generator like [https://www.transip.nl/htpasswd/](https://www.transip.nl/htpasswd/) to create the password hashes when you don't have a machine with the `htpasswd` package. (**Hint**: The package is `apache2-utils`)
 
@@ -37,3 +38,4 @@ MIT / BSD
 ## Author Information
 
 [Jeroen Geusebroek](http://jeroengeusebroek.nl/)
+[Andreas Sehr](http://softbrix.se/)
