@@ -1,6 +1,7 @@
-FROM alpine:latest
+FROM armhf/alpine:latest
 MAINTAINER Jeroen Geusebroek <me@jeroengeusebroek.nl>
 MAINTAINER Andreas Sehr <andreas@softbrix.se>
+MAINTAINER Marc Ammon <marc.ammon@fau.de>
 
 EXPOSE 80
 
