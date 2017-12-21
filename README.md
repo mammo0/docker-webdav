@@ -1,4 +1,6 @@
-This project was forked from [jgeusebroek](https://github.com/jgeusebroek/docker-webdav)
+This project was forked from:
+* [softbrix](https://github.com/softbrix/docker-webdav)
+* [jgeusebroek](https://github.com/jgeusebroek/docker-webdav)
 
 # Docker WebDAV image
 
