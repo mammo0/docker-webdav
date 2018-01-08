@@ -16,7 +16,10 @@ ENV HTPASSWD=webdav:kK1eUy0t2agv6 \
 ADD files/* /etc/lighttpd/
 ADD ./entrypoint.sh /entrypoint.sh
 
-COPY --from=armBin /usr/bin/ /usr/bin/
+COPY --from=armBin /usr/bin/cross-build-start /usr/bin/
+COPY --from=armBin /usr/bin/cross-build-end /usr/bin/
+COPY --from=armBin /usr/bin/qemu-arm-static /usr/bin/
+COPY --from=armBin /usr/bin/resin-xbuild /usr/bin/
 RUN [ "cross-build-start" ]
 
 RUN chmod u+x  /entrypoint.sh && \
