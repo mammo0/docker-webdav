@@ -28,6 +28,10 @@ fi
 
 echo $HTPASSWD > /etc/lighttpd/htpasswd
 
+# start cron daemon with logging
+/usr/sbin/crond -L /var/log/cron.log
+
+# start lighttpd
 lighttpd -f /etc/lighttpd/lighttpd.conf
 
 # Hang on a bit while the server starts
