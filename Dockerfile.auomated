@@ -1,4 +1,4 @@
-FROM mammo0/armv7hf-debian-qemu AS armBin
+FROM mammo0/dhub-xcompile-arm_aarch64 AS qemu
 
 FROM arm32v6/alpine:latest
 MAINTAINER Jeroen Geusebroek <me@jeroengeusebroek.nl>
@@ -15,10 +15,7 @@ ENV HTPASSWD=webdav:kK1eUy0t2agv6 \
 
 ADD ./entrypoint.sh /entrypoint.sh
 
-COPY --from=armBin /usr/bin/cross-build-start /usr/bin/
-COPY --from=armBin /usr/bin/cross-build-end /usr/bin/
-COPY --from=armBin /usr/bin/qemu-arm-static /usr/bin/
-COPY --from=armBin /usr/bin/resin-xbuild /usr/bin/
+COPY --from=qemu / /usr/bin/
 RUN [ "cross-build-start" ]
 
 RUN chmod u+x  /entrypoint.sh && \
