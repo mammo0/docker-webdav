@@ -45,6 +45,7 @@ jobs:
                   fi
 
                   echo ::set-output name=buildx_args::--platform ${DOCKER_PLATFORMS} \
+                      --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ') \
                       ${TAGS} \
                       --file Dockerfile .
 
