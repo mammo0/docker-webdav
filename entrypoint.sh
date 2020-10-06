@@ -11,7 +11,7 @@ if ! id -u "${USERNAME}" >/dev/null 2>&1; then
     useradd -o -g ${GROUP} -M -u ${USER_UID} ${USERNAME}
 fi
 
-chown webdav /var/log/lighttpd
+chown ${USERNAME}:${GROUP} /var/log/lighttpd
 
 if [ -n "$WHITELIST" ]; then
     sed -i "s/WHITELIST/${WHITELIST}/" /etc/lighttpd/webdav.conf
