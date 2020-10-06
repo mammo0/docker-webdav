@@ -10,8 +10,8 @@ READWRITE=${READWRITE:=false}
 
 # Add user if it does not exist
 if ! id -u "${USERNAME}" >/dev/null 2>&1; then
-	addgroup -g ${USER_GID:=2222} ${GROUP}
-	adduser -G ${GROUP} -D -H -u ${USER_UID:=2222} ${USERNAME}
+    groupadd -o -g ${USER_GID} ${GROUP}
+    useradd -o -g ${GROUP} -M -u ${USER_UID} ${USERNAME}
 fi
 
 chown webdav /var/log/lighttpd

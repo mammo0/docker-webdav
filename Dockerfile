@@ -6,6 +6,8 @@ MAINTAINER Marc Ammon <marc.ammon@fau.de>
 ARG BUILD_DATE=None
 
 ENV HTPASSWD=webdav:kK1eUy0t2agv6
+ENV USER_UID=2222
+ENV USER_GID=2222
 ENV BUILD_DATE=$BUILD_DATE
 
 RUN apk add --no-cache \
@@ -13,7 +15,9 @@ RUN apk add --no-cache \
         lighttpd-mod_webdav \
         lighttpd-mod_auth \
         # to avoid big log files
-        logrotate
+        logrotate \
+        # for user management
+        shadow
 
 # copy relevant files
 ADD files/ /
