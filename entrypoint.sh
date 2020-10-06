@@ -5,9 +5,6 @@ set -x
 USERNAME=webdav
 GROUP=webdav
 
-# Only allow read access by default
-READWRITE=${READWRITE:=false}
-
 # Add user if it does not exist
 if ! id -u "${USERNAME}" >/dev/null 2>&1; then
     groupadd -o -g ${USER_GID} ${GROUP}
@@ -17,13 +14,13 @@ fi
 chown webdav /var/log/lighttpd
 
 if [ -n "$WHITELIST" ]; then
-	sed -i "s/WHITELIST/${WHITELIST}/" /etc/lighttpd/webdav.conf
+    sed -i "s/WHITELIST/${WHITELIST}/" /etc/lighttpd/webdav.conf
 fi
 
 if [ "$READWRITE" == "true" ]; then
-	sed -i "s/is-readonly = \"\\w*\"/is-readonly = \"disable\"/" /etc/lighttpd/webdav.conf
+    sed -i "s/is-readonly = \"\\w*\"/is-readonly = \"disable\"/" /etc/lighttpd/webdav.conf
 else
-  sed -i "s/is-readonly = \"\\w*\"/is-readonly = \"enable\"/" /etc/lighttpd/webdav.conf
+    sed -i "s/is-readonly = \"\\w*\"/is-readonly = \"enable\"/" /etc/lighttpd/webdav.conf
 fi
 
 echo $HTPASSWD > /etc/lighttpd/htpasswd

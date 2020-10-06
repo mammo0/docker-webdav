@@ -8,6 +8,10 @@ ARG BUILD_DATE=None
 ENV HTPASSWD=webdav:kK1eUy0t2agv6
 ENV USER_UID=2222
 ENV USER_GID=2222
+# only allow read access by default
+ENV READWRITE=false
+# empty white list by default
+ENV WHITELIST=
 ENV BUILD_DATE=$BUILD_DATE
 
 RUN apk add --no-cache \
