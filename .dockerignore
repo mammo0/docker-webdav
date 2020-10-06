@@ -1,10 +1,7 @@
 # Git files
 .git
 .gitignore
-
-#build files
-build.sh
-buildNoCache.sh
+.github
 
 # Information files
 LICENSE
