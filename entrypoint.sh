@@ -28,6 +28,15 @@ echo $HTPASSWD > /etc/lighttpd/htpasswd
 # start cron daemon with logging
 /usr/sbin/crond -L /var/log/cron.log
 
+# this function is called on 'docker stop'
+function _term() {
+    echo "Caught SIGTERM signal!"
+
+    kill $LIGHTTPD_PID
+    kill $TAIL_PID
+}
+trap _term SIGTERM
+
 # start lighttpd
 lighttpd -D -f /etc/lighttpd/lighttpd.conf &
 LIGHTTPD_PID=$!
@@ -37,6 +46,7 @@ sleep 5
 
 # start logging
 tail -f /var/log/lighttpd/*.log &
+TAIL_PID=$!
 
 # wait for the lighttpd process
 wait "$LIGHTTPD_PID"
