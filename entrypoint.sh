@@ -29,9 +29,14 @@ echo $HTPASSWD > /etc/lighttpd/htpasswd
 /usr/sbin/crond -L /var/log/cron.log
 
 # start lighttpd
-lighttpd -f /etc/lighttpd/lighttpd.conf
+lighttpd -D -f /etc/lighttpd/lighttpd.conf &
+LIGHTTPD_PID=$!
 
 # Hang on a bit while the server starts
 sleep 5
 
-tail -f /var/log/lighttpd/*.log
+# start logging
+tail -f /var/log/lighttpd/*.log &
+
+# wait for the lighttpd process
+wait "$LIGHTTPD_PID"
