@@ -30,14 +30,14 @@ jobs:
             - name: Prepare environment
               id: prepare
               run: |
-                  # if it's a scheduled release, only re-build the latest release
-                  if [ "${{ github.event_name }}" = "schedule" ]; then
-                      TAGS="--tag ${DOCKER_IMAGE}:latest"
-                  else
-                      # edge version, built on every push
-                      TAGS="--tag ${DOCKER_IMAGE}:edge"
+                  # edge versionis built every time
+                  TAGS="--tag ${DOCKER_IMAGE}:edge"
 
-                      # if a release is made, build also 'latest' and the version
+                  # if it's a scheduled release, also re-build the latest release
+                  if [ "${{ github.event_name }}" = "schedule" ]; then
+                      TAGS="$TAGS --tag ${DOCKER_IMAGE}:latest"
+                  else
+                      # if a release is made, build 'latest' and the release version
                       if [[ $GITHUB_REF == refs/tags/v* ]]; then
                           TAGS="$TAGS --tag ${DOCKER_IMAGE}:latest"
                           TAGS="$TAGS --tag ${DOCKER_IMAGE}:${GITHUB_REF#refs/tags/}"
