@@ -3,7 +3,7 @@ name: Build Docker image
 on:
     schedule:
         # run every month
-        - cron: "* * 1 * *"
+        - cron: '0 0 1 * *'
     push:
         branches: master
         tags:
