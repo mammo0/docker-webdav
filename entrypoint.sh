@@ -18,6 +18,9 @@ if [ -n "$WHITELIST" ]; then
 fi
 
 if [ "$READWRITE" == "true" ]; then
+    # enable write permissions on file system
+    chown -R ${USERNAME}:${GROUP} /webdav
+    # apply write config
     sed -i "s/is-readonly = \"\\w*\"/is-readonly = \"disable\"/" /etc/lighttpd/webdav.conf
 else
     sed -i "s/is-readonly = \"\\w*\"/is-readonly = \"enable\"/" /etc/lighttpd/webdav.conf
