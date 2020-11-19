@@ -26,6 +26,15 @@ else
     sed -i "s/is-readonly = \"\\w*\"/is-readonly = \"enable\"/" /etc/lighttpd/webdav.conf
 fi
 
+if [ -n "$PROXY_TRUST_IPNET" ]; then
+    # apply trust IP or subnet to extforward.forwarder
+    cat << EOF >> /etc/lighttpd/lighttpd.conf
+extforward.forwarder = (
+    "$PROXY_TRUST_IPNET" => "trust"
+)
+EOF
+fi
+
 echo $HTPASSWD > /etc/lighttpd/htpasswd
 
 # start cron daemon with logging

@@ -30,6 +30,7 @@ You can also provide a list of IP's in the form of a regular expression which ar
 * `USER_GID` Group ID of the lighttpd daemon account (default: 2222).
 * `WHITELIST` Regexp for a list of IP's (default: none). Example: `-e WHITELIST='192.168.1.*|172.16.1.2'`
 * `READWRITE` When this is set to `true`, the WebDAV share can be written to (default: False). Example: `-e READWRITE=true`
+* `PROXY_TRUST_IPNET` If this container is used behind a reverse proxy, this can be set to the IP or subnet of the proxy server. It uses the `extforward.forwarder` setting of the `mod_extforward` module. After that the real access IPs are getting logged and not the one of the reverse proxy. (This could be usefull in conjunction with the `WHITELIST` variable)
 
 **IMPORTANT**: Should you use a persistent config volume, the WHITELIST and READWRITE variables will only have effect the first time. I.e., when you don't have a (custom) configuration yet.
 

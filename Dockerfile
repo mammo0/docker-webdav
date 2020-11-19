@@ -12,6 +12,8 @@ ENV USER_GID=2222
 ENV READWRITE=false
 # empty white list by default
 ENV WHITELIST=
+# extforward.forwarder trust IP or subnet
+ENV PROXY_TRUST_IPNET=
 ENV BUILD_DATE=$BUILD_DATE
 
 RUN apk add --no-cache \
