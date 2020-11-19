@@ -9,11 +9,11 @@ A tiny image running [gliderlabs/docker-alpine](https://github.com/gliderlabs/do
 ## Usage
 
 	docker run --restart=always -d \
-		-p 0.0.0.0:80:80 \
+		-p 80:80 \
 		--hostname=webdav \
 		--name=webdav \
 		-v /<host_directory_to_share>:/webdav \
-		softbrix/webdav
+		mammo0/docker-webdav
 
 By default the WebDAV server is password protected with user `webdav` and password `vadbew` which obviously isn't really secure.
 This can easily be overwritten, by providing a new environment variable for the container when it starts.
