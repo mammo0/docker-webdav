@@ -26,7 +26,7 @@ else
     sed -i "s/is-readonly = \"\\w*\"/is-readonly = \"enable\"/" /etc/lighttpd/webdav.conf
 fi
 
-if [ -n "$PROXY_TRUST_IPNET" ]; then
+if [ -n "$PROXY_TRUST_IPNET" ] && ! grep -q "extforward.forwarder = (" /etc/lighttpd/lighttpd.conf; then
     # apply trust IP or subnet to extforward.forwarder
     cat << EOF >> /etc/lighttpd/lighttpd.conf
 extforward.forwarder = (
