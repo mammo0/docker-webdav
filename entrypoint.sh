@@ -29,6 +29,7 @@ fi
 if [ -n "$PROXY_TRUST_IPNET" ] && ! grep -q "extforward.forwarder = (" /etc/lighttpd/lighttpd.conf; then
     # apply trust IP or subnet to extforward.forwarder
     cat << EOF >> /etc/lighttpd/lighttpd.conf
+extforward.headers = ("Forwarded", "X-Forwarded-For")
 extforward.forwarder = (
     "$PROXY_TRUST_IPNET" => "trust"
 )
