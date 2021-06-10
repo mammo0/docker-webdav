@@ -12,7 +12,6 @@ on:
 env:
     DOCKER_IMAGE: mammo0/docker-webdav
     DOCKER_PLATFORMS: linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/386,linux/ppc64le,linux/s390x
-    DOCKER_CACHE: /tmp/.buildx-cache
 
 jobs:
     build:
@@ -30,61 +29,35 @@ jobs:
             - name: Prepare environment
               id: prepare
               run: |
-                  # edge versionis built every time
-                  TAGS="--tag ${DOCKER_IMAGE}:edge"
-
-                  # if it's a scheduled release, also re-build the latest release
-                  if [ "${{ github.event_name }}" = "schedule" ]; then
-                      TAGS="$TAGS --tag ${DOCKER_IMAGE}:latest"
-                  else
-                      # if a release is made, build 'latest' and the release version
-                      if [[ $GITHUB_REF == refs/tags/v* ]]; then
-                          TAGS="$TAGS --tag ${DOCKER_IMAGE}:latest"
-                          TAGS="$TAGS --tag ${DOCKER_IMAGE}:${GITHUB_REF#refs/tags/}"
-                      fi
-                  fi
-
-                  echo ::set-output name=buildx_args::--platform ${DOCKER_PLATFORMS} \
-                      --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ') \
-                      ${TAGS} \
-                      --file Dockerfile .
-
-            - name: Set up caching
-              uses: actions/cache@v2
-              id: cache
+                echo ::set-output name=build_date::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+            - name: Docker meta
+              id: meta
+              uses: docker/metadata-action@v3
               with:
-                  path: ${{ env.DOCKER_CACHE }}
-                  key: ${{ runner.os }}-buildx-${{ github.sha }}
-                  restore-keys: ${{ runner.os }}-buildx-
+                images: ${{ env.DOCKER_IMAGE }}
+                tags: |
+                  type=edge,branch=master
+                  type=schedule,pattern=edge
+                  type=schedule,pattern=latest
+                  type=ref,event=tag
+
             - name: Set up QEMU
               uses: docker/setup-qemu-action@v1
-              with:
-                  platforms: ${{ env.DOCKER_PLATFORMS }}
             - name: Set up Docker Buildx
               uses: docker/setup-buildx-action@v1
-              with:
-                  version: latest
-                  install: true
-
-            - name: Build
-              run: |
-                  docker build \
-                      --cache-from "type=local,src=${DOCKER_CACHE}" \
-                      --cache-to "type=local,dest=${DOCKER_CACHE}" \
-                      --output "type=image,push=false" \
-                      ${{ steps.prepare.outputs.buildx_args }}
 
             - name: Login to DockerHub
-              if: success()
               uses: docker/login-action@v1
               with:
                   username: ${{ secrets.DOCKER_USERNAME }}
                   password: ${{ secrets.DOCKER_TOKEN }}
 
-            - name: Push
-              if: success()
-              run: |
-                  docker build \
-                      --cache-from "type=local,src=${DOCKER_CACHE}" \
-                      --output "type=image,push=true" \
-                      ${{ steps.prepare.outputs.buildx_args }}
+            - name: Build and push
+              uses: docker/build-push-action@v2
+              with:
+                context: .
+                build-args: |
+                  BUILD_DATE=${{ steps.prepare.outputs.build_date }}
+                platforms: ${{ env.DOCKER_PLATFORMS }}
+                push: true
+                tags: ${{ steps.meta.outputs.tags }}
