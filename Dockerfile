@@ -1,8 +1,5 @@
 FROM alpine:latest
-MAINTAINER Jeroen Geusebroek <me@jeroengeusebroek.nl>
-MAINTAINER Andreas Sehr <andreas@softbrix.se>
-MAINTAINER Marc Ammon <marc.ammon@fau.de>
-
+LABEL org.opencontainers.image.authors="Jeroen Geusebroek <me@jeroengeusebroek.nl>, Andreas Sehr <andreas@softbrix.se>, Marc Ammon <marc.ammon@fau.de>"
 ARG BUILD_DATE=None
 ENV BUILD_DATE=$BUILD_DATE
 
