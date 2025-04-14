@@ -22,6 +22,12 @@ else
     sed -i "s/is-readonly = \"\\w*\"/is-readonly = \"enable\"/" /etc/lighttpd/webdav.conf
 fi
 
+if [ "$PROPFIND_DEPTH_INFINITY" == "true" ]; then
+    sed -i -r 's/(# webdav.opts)(.*"propfind-depth-infinity")/webdav.opts\2/' /etc/lighttpd/webdav.conf
+else
+    sed -i -r '/^#/!s/(webdav.opts)(.*"propfind-depth-infinity")/# webdav.opts\2/' /etc/lighttpd/webdav.conf
+fi
+
 if [ -n "$PROXY_TRUST_IPNET" ] && ! grep -q "extforward.forwarder = (" /etc/lighttpd/lighttpd.conf; then
     # apply trust IP or subnet to extforward.forwarder
     cat << EOF >> /etc/lighttpd/lighttpd.conf

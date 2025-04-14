@@ -13,6 +13,8 @@ ENV READWRITE=false
 ENV WHITELIST=^$
 # extforward.forwarder trust IP or subnet
 ENV PROXY_TRUST_IPNET=
+# permit PROPFIND with request header "Depth: infinity"
+ENV PROPFIND_DEPTH_INFINITY=false
 
 RUN apk add --update --no-cache \
         lighttpd \
