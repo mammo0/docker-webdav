@@ -13,10 +13,6 @@ fi
 
 chown ${USERNAME}:${GROUP} /var/log/lighttpd
 
-if [ -n "$WHITELIST" ]; then
-    sed -i "s/WHITELIST/${WHITELIST}/" /etc/lighttpd/webdav.conf
-fi
-
 if [ "$READWRITE" == "true" ]; then
     # enable write permissions on file system
     chown -R ${USERNAME}:${GROUP} /webdav
